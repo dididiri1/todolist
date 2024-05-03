@@ -12,6 +12,8 @@ import sample.todolist.dto.member.request.MemberCreateRequest;
 import sample.todolist.dto.member.response.MemberCreateResponse;
 import sample.todolist.handler.ex.validationException;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static sample.todolist.dto.Role.ROLE_USER;
@@ -68,6 +70,21 @@ public class MemberServiceTest extends IntegrationTestSupport {
         assertThatThrownBy(() -> memberService.createMember(request))
                 .isInstanceOf(validationException.class)
                 .hasMessage("이미 사용 중인 유저명입니다.");
+    }
+
+    @DisplayName("회원을 탈퇴 한다.")
+    @Test
+    void deleteMember() throws Exception {
+        //given
+        Member member = createMember("testUser", "홍길동");
+        memberRepositoryJpa.save(member);
+
+        //when
+        memberService.deleteMember(member.getId());
+
+        //then
+        Optional<Member> findMember = memberRepositoryJpa.findById(member.getId());
+        assertThat(findMember.isPresent()).isFalse();
     }
 
     private Member createMember(String username, String nickname) {

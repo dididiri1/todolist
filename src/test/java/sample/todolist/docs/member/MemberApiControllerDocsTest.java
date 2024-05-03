@@ -15,11 +15,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,7 +56,7 @@ public class MemberApiControllerDocsTest extends RestDocsSupport {
                         .build());
 
         // expected
-        this.mockMvc.perform(post("/api/v1/members/new")
+        this.mockMvc.perform(post("/api/v1/member/new")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
@@ -87,6 +90,37 @@ public class MemberApiControllerDocsTest extends RestDocsSupport {
                                         .description("사용자명"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING)
                                         .description("닉네임")
+                        )
+                ));
+
+    }
+
+    @DisplayName("회원을 탈퇴한다.")
+    @Test
+    @WithMockUser(authorities = "ROLE_USER")
+    void deleteMember() throws Exception {
+        //given
+        Long memberId = 1L;
+
+        // expected
+        this.mockMvc.perform(delete("/api/v1/members/{memberId}", memberId)
+                        .contentType(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("member-delete",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("회원 ID")
+                        ),
+                        responseFields (
+                                fieldWithPath("status").type(JsonFieldType.NUMBER)
+                                        .description("상태 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("응답 메시지"),
+                                fieldWithPath("data").type(JsonFieldType.NULL)
+                                        .description("데이터")
                         )
                 ));
 

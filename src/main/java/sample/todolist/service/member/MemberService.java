@@ -12,6 +12,7 @@ import sample.todolist.dto.member.response.MemberCreateResponse;
 import sample.todolist.handler.ex.validationException;
 
 import javax.validation.ValidationException;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -40,4 +41,17 @@ public class MemberService {
     }
 
 
+    @Transactional
+    public void deleteMember(Long memberId) {
+        Member member =validateMemberId(memberId);
+        memberRepositoryJpa.delete(member);
+    }
+
+    private Member validateMemberId(Long memberId) {
+        Member findMember = memberRepositoryJpa.findById(memberId).orElseThrow(() -> {
+            throw new validationException("해당 유저를 찾을수 없습니다.");
+        });
+
+        return findMember;
+    }
 }

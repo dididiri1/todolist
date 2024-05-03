@@ -23,3 +23,15 @@ include::{snippets}/member-create/request-fields.adoc[]
 include::{snippets}/member-create/http-response.adoc[]
 include::{snippets}/member-create/response-fields.adoc[]
 
+[[member-delete]]
+=== 회원 탈퇴
+==== HTTP Request
+include::{snippets}/member-delete/http-request.adoc[]
+include::{snippets}/member-delete/path-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/member-delete/http-response.adoc[]
+include::{snippets}/member-delete/response-fields.adoc[]
+
+
+

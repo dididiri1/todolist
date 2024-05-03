@@ -8,6 +8,7 @@ import sample.todolist.dto.member.request.MemberCreateRequest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -104,5 +105,21 @@ public class MemberApiControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.status").value("400"))
                 .andExpect(jsonPath("$.message").value("닉네임은 필수입니다."))
                 .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @DisplayName("회원을 탈퇴한다.")
+    @Test
+    @WithMockUser(authorities = "ROLE_USER")
+    void deleteMember() throws Exception {
+        //given
+        Long memberId = 1L;
+
+        //when //then
+        mockMvc.perform(delete("/api/v1/members/{memberId}", memberId)
+                        .contentType(APPLICATION_JSON)
+                        .with(csrf())
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

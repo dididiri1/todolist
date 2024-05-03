@@ -3,9 +3,7 @@ package sample.todolist.controller.api.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sample.todolist.dto.ApiResponse;
 import sample.todolist.dto.member.request.MemberCreateRequest;
 import sample.todolist.dto.member.response.MemberCreateResponse;
@@ -29,5 +27,12 @@ public class MemberApiController {
         MemberCreateResponse response = memberService.createMember(request);
 
         return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "회원 등록 성공", response), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/api/v1/members/{memberId}")
+    public ResponseEntity<?> deleteMember(@PathVariable Long memberId) {
+        memberService.deleteMember(memberId);
+
+        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "회원 탈퇴 성공", null), HttpStatus.OK);
     }
 }
