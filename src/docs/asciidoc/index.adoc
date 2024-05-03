@@ -1,0 +1,25 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= 과제 REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+
+[[Member-API]]
+== Member API
+
+[[member-create]]
+=== 회원 등록
+==== HTTP Request
+include::{snippets}/member-create/http-request.adoc[]
+include::{snippets}/member-create/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/member-create/http-response.adoc[]
+include::{snippets}/member-create/response-fields.adoc[]
+

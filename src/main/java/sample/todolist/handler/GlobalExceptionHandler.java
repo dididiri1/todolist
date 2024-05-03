@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sample.todolist.dto.ApiResponse;
 import sample.todolist.handler.ex.validationException;
 
+import javax.validation.ValidationException;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

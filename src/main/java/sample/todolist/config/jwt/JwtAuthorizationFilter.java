@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import sample.todolist.config.auth.PrincipalDetails;
 import sample.todolist.domain.member.Member;
-import sample.todolist.domain.member.MemberRepositoryJap;
+import sample.todolist.domain.member.MemberRepositoryJpa;
 
 
 import javax.servlet.FilterChain;
@@ -24,11 +24,11 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private MemberRepositoryJap memberRepositoryJap;
+    private MemberRepositoryJpa memberRepositoryJpa;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberRepositoryJap memberRepositoryJap) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberRepositoryJpa memberRepositoryJpa) {
         super(authenticationManager);
-        this.memberRepositoryJap = memberRepositoryJap;
+        this.memberRepositoryJpa = memberRepositoryJpa;
     }
 
     @Override
@@ -44,16 +44,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         try{
             username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build()
                     .verify(jwtToken)
-                    .getClaim("userId").asString();
+                    .getClaim("username").asString();
         } catch (TokenExpiredException e) {
             e.printStackTrace();
-            request.setAttribute("exception", 401);
+            request.setAttribute("exception", 405);
         } catch (JWTVerificationException e) {
             e.printStackTrace();
-            request.setAttribute("exception", 401);
+            request.setAttribute("exception", 405);
         }
         if(username != null){
-            Member memberEntity = memberRepositoryJap.findByUsername(username);
+            Member memberEntity = memberRepositoryJpa.findByUsername(username);
             PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails,null, principalDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

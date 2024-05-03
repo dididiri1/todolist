@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import sample.todolist.config.auth.PrincipalDetails;
 import sample.todolist.domain.member.Member;
-import sample.todolist.domain.member.MemberRepositoryJap;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,11 +23,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-
     private final AuthenticationManager authenticationManager;
-
-    private final MemberRepositoryJap memberRepositoryJap;
-
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -64,7 +59,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         JsonObject json = new JsonObject();
         json.addProperty("status", 200);
-        json.addProperty("message", "로그인 성공");
+        json.addProperty("message", "OK");
         json.addProperty("token", accessToken);
 
         response.addHeader("Authorization","Bearer "+accessToken);

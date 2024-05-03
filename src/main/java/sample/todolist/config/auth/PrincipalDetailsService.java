@@ -6,18 +6,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import sample.todolist.domain.member.Member;
-import sample.todolist.domain.member.MemberRepositoryJap;
+import sample.todolist.domain.member.MemberRepositoryJpa;
 
 
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
 
     @Autowired
-    private MemberRepositoryJap memberRepositoryJap;
+    private MemberRepositoryJpa memberRepositoryJpa;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Member memberEntity = memberRepositoryJap.findByUsername(userId);
+        Member memberEntity = memberRepositoryJpa.findByUsername(userId);
         if(memberEntity == null){
             return null;
         } else {
