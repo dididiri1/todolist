@@ -33,11 +33,23 @@ include::{snippets}/member-delete/path-parameters.adoc[]
 include::{snippets}/member-delete/http-response.adoc[]
 include::{snippets}/member-delete/response-fields.adoc[]
 
+[[member-todo-list]]
+=== 회원 TODO 목록 조회
+==== HTTP Request
+include::{snippets}/member-todo-list/http-request.adoc[]
+include::{snippets}/member-todo-list/path-parameters.adoc[]
+include::{snippets}/member-todo-list/request-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/member-todo-list/http-response.adoc[]
+include::{snippets}/member-todo-list/response-fields.adoc[]
+
+
 [[Todo-API]]
 == Todo API
 
 [[todo-create]]
-=== 회원 등록
+=== TODO 등록
 ==== HTTP Request
 include::{snippets}/todo-create/http-request.adoc[]
 include::{snippets}/todo-create/request-fields.adoc[]
@@ -45,3 +57,16 @@ include::{snippets}/todo-create/request-fields.adoc[]
 ==== HTTP Response
 include::{snippets}/todo-create/http-response.adoc[]
 include::{snippets}/todo-create/response-fields.adoc[]
+
+[[todo-update]]
+=== TODO 상태 수정
+==== HTTP Request
+include::{snippets}/todo-update/http-request.adoc[]
+include::{snippets}/todo-update/path-parameters.adoc[]
+include::{snippets}/todo-update/request-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/todo-update/http-response.adoc[]
+include::{snippets}/todo-update/response-fields.adoc[]
+
+

@@ -8,8 +8,7 @@ import sample.todolist.dto.member.request.MemberCreateRequest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +37,7 @@ public class MemberApiControllerTest extends ControllerTestSupport {
                 .andExpect(status().isCreated());
     }
 
-    @DisplayName("신규 회원 등록할 때 유저명은 필수값이다.")
+    @DisplayName("신규 회원 등록할 때 유저명은 필수 값이다.")
     @Test
     @WithMockUser(authorities = "ROLE_USER")
     void createUserWithoutUsername() throws Exception {
@@ -61,7 +60,7 @@ public class MemberApiControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.data").isEmpty());
     }
 
-    @DisplayName("신규 회원 등록할 때 패스워드는 필수값이다.")
+    @DisplayName("신규 회원 등록할 때 패스워드는 필수 값이다.")
     @Test
     @WithMockUser(authorities = "ROLE_USER")
     void createUserWithoutPassword() throws Exception {
@@ -84,7 +83,7 @@ public class MemberApiControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.data").isEmpty());
     }
 
-    @DisplayName("신규 회원 등록할 때 닉네임은 필수값이다.")
+    @DisplayName("신규 회원 등록할 때 닉네임은 필수 값이다.")
     @Test
     @WithMockUser(authorities = "ROLE_USER")
     void createUserWithoutNickname() throws Exception {
@@ -121,5 +120,27 @@ public class MemberApiControllerTest extends ControllerTestSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("TODO 목록을 조회 한다.")
+    @Test
+    @WithMockUser(authorities = "ROLE_USER")
+    void getUsers() throws Exception {
+        //given
+        Long memberId = 1L;
+        int page = 0;
+        int size = 3;
+
+        // when // then
+        mockMvc.perform(get("/api/v1/members/{memberId}/todos", memberId)
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").exists())
+                .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.data").isEmpty());
+
     }
 }

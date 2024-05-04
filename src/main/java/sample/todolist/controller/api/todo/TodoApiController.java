@@ -3,12 +3,11 @@ package sample.todolist.controller.api.todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sample.todolist.dto.ApiResponse;
 import sample.todolist.dto.todo.request.TodoCreateRequest;
-import sample.todolist.dto.todo.response.TodoCreateResponse;
+import sample.todolist.dto.todo.request.TodoStatusUpdateRequest;
+import sample.todolist.dto.todo.response.TodoStatusUpdateResponse;
 import sample.todolist.service.todo.TodoService;
 
 import javax.validation.Valid;
@@ -23,6 +22,13 @@ public class TodoApiController {
     public ResponseEntity<?> createTodo(@RequestBody @Valid TodoCreateRequest request) {
         todoService.createTodo(request);
 
-        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "투두 등록 성공", null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.CREATED.value(), "TODO 등록 성공", null), HttpStatus.CREATED);
     }
+
+    @PatchMapping("/api/v1/{todoId}/status")
+    public ResponseEntity<?> updateTodoStatus(@PathVariable Long todoId, @RequestBody @Valid TodoStatusUpdateRequest request) {
+        TodoStatusUpdateResponse response = todoService.updateTodoStatus(todoId, request);
+        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "TODO 상태 수정 성공", response), HttpStatus.OK);
+    }
+
 }

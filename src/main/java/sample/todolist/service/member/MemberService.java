@@ -1,18 +1,18 @@
 package sample.todolist.service.member;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.todolist.domain.member.Member;
 import sample.todolist.domain.member.MemberRepositoryJpa;
-import sample.todolist.dto.auth.request.AuthRequest;
+import sample.todolist.domain.todo.TodoQueryRepository;
 import sample.todolist.dto.member.request.MemberCreateRequest;
 import sample.todolist.dto.member.response.MemberCreateResponse;
+import sample.todolist.dto.todo.response.TodoResponse;
 import sample.todolist.handler.ex.validationException;
-
-import javax.validation.ValidationException;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -20,6 +20,8 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepositoryJpa memberRepositoryJpa;
+
+    private final TodoQueryRepository todoQueryRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -53,5 +55,9 @@ public class MemberService {
         });
 
         return findMember;
+    }
+
+    public Page<TodoResponse> getMemberDodoList(Long memberId, Pageable pageable) {
+        return todoQueryRepository.searchPageTodos(memberId, pageable);
     }
 }

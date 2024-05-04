@@ -1,15 +1,12 @@
 package sample.todolist.domain.todo;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import sample.todolist.domain.BaseEntity;
 import sample.todolist.domain.member.Member;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Todo extends BaseEntity {
