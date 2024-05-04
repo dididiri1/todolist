@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class MemberApiControllerTest extends ControllerTestSupport {
 
+
     @DisplayName("신규 회원을 등록한다.")
     @Test
     @WithMockUser(authorities = "ROLE_USER")
@@ -52,6 +53,7 @@ public class MemberApiControllerTest extends ControllerTestSupport {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf())
+
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())

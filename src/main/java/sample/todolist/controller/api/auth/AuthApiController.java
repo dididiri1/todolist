@@ -15,41 +15,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sample.todolist.config.jwt.JwtProperties;
 import sample.todolist.dto.ApiResponse;
-import sample.todolist.dto.auth.request.AuthRequest;
+import sample.todolist.dto.auth.request.AuthLoginRequest;
+import sample.todolist.dto.jwt.JwtResponse;
+import sample.todolist.service.jwt.JwtService;
 import sample.todolist.service.member.MemberService;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
 public class AuthApiController {
 
-    private final MemberService memberService;
+    private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/api/v1/auth/login")
-    public ResponseEntity<?> createAuthToken(@RequestBody AuthRequest authRequest) {
-        System.out.println("authRequest.getUsername() = " + authRequest.getUsername());
-        System.out.println("authRequest.getPassword() = " + authRequest.getPassword());
-        
+    public ResponseEntity<?> login(@RequestBody @Valid AuthLoginRequest authLoginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
-
+                new UsernamePasswordAuthenticationToken(authLoginRequest.getUsername(), authLoginRequest.getPassword());
         try {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            JwtResponse response = jwtService.createToken(authLoginRequest.getUsername());
 
-            String token = JWT.create()
-                    .withSubject(JwtProperties.SECRET)
-                    .withExpiresAt(new Date(System.currentTimeMillis()+(60000*3)))
-                    .withClaim("username", authRequest.getUsername())
-                    .sign(Algorithm.HMAC512(JwtProperties.SECRET.getBytes()));
-
-            return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "로그인 성공", token), HttpStatus.CREATED);
+            return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "로그인 성공", response), HttpStatus.OK);
         } catch (AuthenticationException e) {
-            // Return response entity with status unauthorized
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed!");
+            return new ResponseEntity<>(new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), "로그인 실패", null), HttpStatus.UNAUTHORIZED);
         }
     }
 }

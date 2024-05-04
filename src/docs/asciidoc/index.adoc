@@ -9,6 +9,18 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
+[[Auth-API]]
+== Auth API
+
+[[auth-login]]
+=== 로그인
+==== HTTP Request
+include::{snippets}/auth-login/http-request.adoc[]
+include::{snippets}/auth-login/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/auth-login/http-response.adoc[]
+include::{snippets}/auth-login/response-fields.adoc[]
 
 [[Member-API]]
 == Member API

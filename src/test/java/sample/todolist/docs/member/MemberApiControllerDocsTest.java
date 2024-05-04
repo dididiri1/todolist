@@ -45,7 +45,6 @@ public class MemberApiControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("신규 회원을 등록한다.")
     @Test
-    @WithMockUser(authorities = "ROLE_USER")
     void createMember() throws Exception {
         //given
         MemberCreateRequest request = MemberCreateRequest.builder()

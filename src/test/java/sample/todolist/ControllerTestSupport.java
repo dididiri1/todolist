@@ -5,15 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.web.servlet.MockMvc;
 import sample.todolist.config.CorsConfig;
+import sample.todolist.controller.api.auth.AuthApiController;
 import sample.todolist.controller.api.member.MemberApiController;
 import sample.todolist.controller.api.todo.TodoApiController;
+import sample.todolist.service.jwt.JwtService;
 import sample.todolist.service.member.MemberService;
 import sample.todolist.service.todo.TodoService;
 
 
 @WebMvcTest(controllers = {
+        AuthApiController.class,
         MemberApiController.class,
         TodoApiController.class
 })
@@ -31,5 +35,11 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected TodoService todoService;
+
+    @MockBean
+    protected JwtService jwtService;
+
+    @MockBean
+    protected AuthenticationManager authenticationManager;
 
 }

@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .apply(new MyCustomDsl())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/members/new", "/api/v1/auth/login").permitAll()
+                .antMatchers("/api/v1/members/new", "/api/v1/auth/login", "/login").permitAll()
                 .antMatchers("/api/**")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
