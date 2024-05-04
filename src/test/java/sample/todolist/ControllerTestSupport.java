@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import sample.todolist.config.CorsConfig;
 import sample.todolist.controller.api.member.MemberApiController;
+import sample.todolist.controller.api.todo.TodoApiController;
 import sample.todolist.service.member.MemberService;
+import sample.todolist.service.todo.TodoService;
 
 
 @WebMvcTest(controllers = {
-        MemberApiController.class
+        MemberApiController.class,
+        TodoApiController.class
 })
 @Import(CorsConfig.class)
 public abstract class ControllerTestSupport {
@@ -25,5 +28,8 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected TodoService todoService;
 
 }

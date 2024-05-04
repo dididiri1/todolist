@@ -33,5 +33,15 @@ include::{snippets}/member-delete/path-parameters.adoc[]
 include::{snippets}/member-delete/http-response.adoc[]
 include::{snippets}/member-delete/response-fields.adoc[]
 
+[[Todo-API]]
+== Todo API
 
+[[todo-create]]
+=== 회원 등록
+==== HTTP Request
+include::{snippets}/todo-create/http-request.adoc[]
+include::{snippets}/todo-create/request-fields.adoc[]
 
+==== HTTP Response
+include::{snippets}/todo-create/http-response.adoc[]
+include::{snippets}/todo-create/response-fields.adoc[]

@@ -29,6 +29,10 @@ public class MemberApiController {
         return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "회원 등록 성공", response), HttpStatus.CREATED);
     }
 
+    /**
+     * @Method: deleteMember
+     * @Description: 회원 탈퇴
+     */
     @DeleteMapping("/api/v1/members/{memberId}")
     public ResponseEntity<?> deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
