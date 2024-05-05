@@ -8,11 +8,17 @@ import sample.todolist.domain.member.MemberRepositoryJpa;
 import sample.todolist.domain.todo.Todo;
 import sample.todolist.domain.todo.TodoRepositoryJpa;
 import sample.todolist.domain.todo.TodoStatus;
+import sample.todolist.dto.EnumResponse;
 import sample.todolist.dto.todo.request.TodoCreateRequest;
 import sample.todolist.dto.todo.request.TodoStatusUpdateRequest;
 import sample.todolist.dto.todo.response.TodoCreateResponse;
 import sample.todolist.dto.todo.response.TodoStatusUpdateResponse;
 import sample.todolist.handler.ex.validationException;
+import sample.todolist.util.EnumMapperType;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -64,5 +70,11 @@ public class TodoService {
         });
 
         return findTodo;
+    }
+
+    public List<EnumResponse> getTodoStatus() {
+        Class<? extends EnumMapperType> e = TodoStatus.class;
+        List<EnumResponse> response = Arrays.stream(e.getEnumConstants()).map(EnumResponse::new).collect(Collectors.toList());
+        return response;
     }
 }

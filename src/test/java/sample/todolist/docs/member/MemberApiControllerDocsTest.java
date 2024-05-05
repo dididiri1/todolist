@@ -42,7 +42,6 @@ public class MemberApiControllerDocsTest extends RestDocsSupport {
         return new MemberApiController(memberService);
     }
 
-
     @DisplayName("신규 회원을 등록한다.")
     @Test
     void createMember() throws Exception {
@@ -109,6 +108,7 @@ public class MemberApiControllerDocsTest extends RestDocsSupport {
 
         // expected
         this.mockMvc.perform(delete("/api/v1/members/{memberId}", memberId)
+                        .header("Authorization", "Bearer {accessToken}")
                         .contentType(APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -158,6 +158,7 @@ public class MemberApiControllerDocsTest extends RestDocsSupport {
 
         // when // then
         this.mockMvc.perform(get("/api/v1/members/{memberId}/todos", memberId)
+                        .header("Authorization", "Bearer {accessToken}")
                         .param("page", String.valueOf(pageable.getOffset()))
                         .param("size", String.valueOf(pageable.getPageSize()))
                 )

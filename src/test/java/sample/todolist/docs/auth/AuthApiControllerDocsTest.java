@@ -6,13 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.test.context.support.WithMockUser;
 import sample.todolist.controller.api.auth.AuthApiController;
 import sample.todolist.docs.RestDocsSupport;
 import sample.todolist.dto.auth.request.AuthLoginRequest;
 import sample.todolist.dto.jwt.JwtResponse;
-import sample.todolist.dto.member.request.MemberCreateRequest;
-import sample.todolist.dto.member.response.MemberCreateResponse;
 import sample.todolist.service.jwt.JwtService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,9 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

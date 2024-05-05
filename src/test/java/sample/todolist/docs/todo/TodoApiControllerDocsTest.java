@@ -2,18 +2,21 @@ package sample.todolist.docs.todo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Pageable;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import sample.todolist.controller.api.todo.TodoApiController;
 import sample.todolist.docs.RestDocsSupport;
 import sample.todolist.domain.todo.TodoStatus;
-import sample.todolist.dto.member.request.MemberCreateRequest;
-import sample.todolist.dto.member.response.MemberCreateResponse;
+import sample.todolist.dto.EnumResponse;
 import sample.todolist.dto.todo.request.TodoCreateRequest;
 import sample.todolist.dto.todo.request.TodoStatusUpdateRequest;
 import sample.todolist.dto.todo.response.TodoStatusUpdateResponse;
 import sample.todolist.service.todo.TodoService;
+import sample.todolist.util.EnumMapperType;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -22,9 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,6 +51,7 @@ public class TodoApiControllerDocsTest extends RestDocsSupport {
 
         // expected
         this.mockMvc.perform(post("/api/v1/todos")
+                        .header("Authorization", "Bearer {accessToken}")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
@@ -77,6 +79,37 @@ public class TodoApiControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
+    @DisplayName("TODO 상태 리스트 조회 API")
+    @Test
+    @WithMockUser(authorities = "ROLE_USER")
+    void getTodoStatusList() throws Exception {
+        //given
+        given(todoService.getTodoStatus())
+                .willReturn(getTodoStatus());
+
+        // expected
+        this.mockMvc.perform(get("/api/v1/todos/categories")
+                        .header("Authorization", "Bearer {accessToken}")
+                        .contentType(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("todo-categories",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields (
+                                fieldWithPath("status").type(JsonFieldType.NUMBER)
+                                        .description("상태 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("응답 메시지"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                        .description("데이터"),
+                                fieldWithPath("data[].code").type(JsonFieldType.STRING).description("code"),
+                                fieldWithPath("data[].title").type(JsonFieldType.STRING).description("title")
+                        )
+                ));
+    }
+
     @DisplayName("TODO 상태를 수정 API")
     @Test
     @WithMockUser(authorities = "ROLE_USER")
@@ -97,7 +130,8 @@ public class TodoApiControllerDocsTest extends RestDocsSupport {
                 .willReturn(result);
 
         // expected
-        this.mockMvc.perform(patch("/api/v1/{todoId}/status", todoId)
+        this.mockMvc.perform(patch("/api/v1/todos/{todoId}/status", todoId)
+                        .header("Authorization", "Bearer {accessToken}")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
@@ -125,5 +159,11 @@ public class TodoApiControllerDocsTest extends RestDocsSupport {
                                         .description("TODO 상태")
                         )
                 ));
+    }
+
+    private List<EnumResponse> getTodoStatus() {
+        Class<? extends EnumMapperType> e = TodoStatus.class;
+        List<EnumResponse> response = Arrays.stream(e.getEnumConstants()).map(EnumResponse::new).collect(Collectors.toList());
+        return response;
     }
 }

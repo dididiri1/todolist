@@ -59,6 +59,15 @@ include::{snippets}/member-todo-list/response-fields.adoc[]
 
 [[Todo-API]]
 == Todo API
+[[todo-create]]
+=== TODO 상태 카테고리 조회
+==== HTTP Request
+include::{snippets}/todo-categories/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/todo-categories/http-response.adoc[]
+include::{snippets}/todo-categories/response-fields.adoc[]
 
 [[todo-create]]
 === TODO 등록
@@ -69,6 +78,7 @@ include::{snippets}/todo-create/request-fields.adoc[]
 ==== HTTP Response
 include::{snippets}/todo-create/http-response.adoc[]
 include::{snippets}/todo-create/response-fields.adoc[]
+
 
 [[todo-update]]
 === TODO 상태 수정

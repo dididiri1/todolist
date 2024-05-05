@@ -49,7 +49,7 @@ public class TodoApiControllerTest extends ControllerTestSupport {
                 .build();
 
         //when //then
-        mockMvc.perform(patch("/api/v1/{todoId}/status", todoId)
+        mockMvc.perform(patch("/api/v1/todos/{todoId}/status", todoId)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf())
@@ -70,7 +70,7 @@ public class TodoApiControllerTest extends ControllerTestSupport {
                 .build();
 
         //when //then
-        mockMvc.perform(patch("/api/v1/{todoId}/status", todoId)
+        mockMvc.perform(patch("/api/v1/todos/{todoId}/status", todoId)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf())

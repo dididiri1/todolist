@@ -1,22 +1,27 @@
 package sample.todolist.domain.todo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
+import sample.todolist.util.EnumMapperType;
 
 @Getter
 @RequiredArgsConstructor
-public enum TodoStatus {
+public enum TodoStatus implements EnumMapperType {
 
     TODO("할 일"), IN_PROGRESS("진행중"), DONE("완료"), PENDING("대기");
 
     private final String text;
 
-    public static boolean containsStockType(TodoStatus type) {
-        return List.of(TODO, IN_PROGRESS, DONE, PENDING).contains(type);
+    @Override
+    public String getKey() {
+        return name();
     }
 
+    @Override
+    public String getValue() {
+        return text;
+    }
 }
 
 
