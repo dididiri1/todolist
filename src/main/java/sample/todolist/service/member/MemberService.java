@@ -12,7 +12,7 @@ import sample.todolist.domain.todo.TodoQueryRepository;
 import sample.todolist.dto.member.request.MemberCreateRequest;
 import sample.todolist.dto.member.response.MemberCreateResponse;
 import sample.todolist.dto.todo.response.TodoResponse;
-import sample.todolist.handler.ex.validationException;
+import sample.todolist.handler.ex.ValidationException;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class MemberService {
     private void validateDuplicateUsername(String username) {
         Member memberEntity = memberRepositoryJpa.findByUsername(username);
         if (memberEntity != null) {
-            throw new validationException("이미 사용 중인 유저명입니다.");
+            throw new ValidationException("이미 사용 중인 유저명입니다.");
         }
     }
 
@@ -51,7 +51,7 @@ public class MemberService {
 
     private Member validateMemberId(Long memberId) {
         Member findMember = memberRepositoryJpa.findById(memberId).orElseThrow(() -> {
-            throw new validationException("해당 유저를 찾을수 없습니다.");
+            throw new ValidationException("해당 유저를 찾을수 없습니다.");
         });
 
         return findMember;

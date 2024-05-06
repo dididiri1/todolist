@@ -13,7 +13,7 @@ import sample.todolist.dto.todo.request.TodoCreateRequest;
 import sample.todolist.dto.todo.request.TodoStatusUpdateRequest;
 import sample.todolist.dto.todo.response.TodoCreateResponse;
 import sample.todolist.dto.todo.response.TodoStatusUpdateResponse;
-import sample.todolist.handler.ex.validationException;
+import sample.todolist.handler.ex.ValidationException;
 import sample.todolist.util.EnumMapperType;
 
 import java.util.Arrays;
@@ -41,7 +41,7 @@ public class TodoService {
 
     private Member validateMemberId(Long memberId) {
         Member findMember = memberRepositoryJpa.findById(memberId).orElseThrow(() -> {
-            throw new validationException("해당 유저를 찾을수 없습니다.");
+            throw new ValidationException("해당 유저를 찾을수 없습니다.");
         });
 
         return findMember;
@@ -60,13 +60,13 @@ public class TodoService {
 
     private void checkIfPendingAndInProgress(TodoStatusUpdateRequest request, Todo findTodo) {
         if (request.getTodoStatus() == TodoStatus.PENDING && findTodo.getTodoStatus() != TodoStatus.IN_PROGRESS) {
-            throw new validationException("진행 중 상태에서만 대기 상태로 변경될 수 있습니다.");
+            throw new ValidationException("진행 중 상태에서만 대기 상태로 변경될 수 있습니다.");
         }
     }
 
     private Todo validateTodoId(Long todoId) {
         Todo findTodo = todoRepositoryJpa.findById(todoId).orElseThrow(() -> {
-            throw new validationException("해당 게시글을 찾을수 없습니다.");
+            throw new ValidationException("해당 게시글을 찾을수 없습니다.");
         });
 
         return findTodo;

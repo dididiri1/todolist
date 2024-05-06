@@ -1,7 +1,5 @@
 package sample.todolist.controller.api.auth;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sample.todolist.config.jwt.JwtProperties;
 import sample.todolist.dto.ApiResponse;
 import sample.todolist.dto.auth.request.AuthLoginRequest;
 import sample.todolist.dto.jwt.JwtResponse;
 import sample.todolist.service.jwt.JwtService;
-import sample.todolist.service.member.MemberService;
 
 import javax.validation.Valid;
-import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +26,10 @@ public class AuthApiController {
 
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * @Method: login
+     * @Description: 로그인
+     */
     @PostMapping("/api/v1/auth/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthLoginRequest authLoginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken =

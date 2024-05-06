@@ -1,10 +1,10 @@
 package sample.todolist.handler.ex;
 
-public class validationException extends RuntimeException {
+public class ValidationException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public validationException(String message) {
+    public ValidationException(String message) {
         super(message);
     }
 

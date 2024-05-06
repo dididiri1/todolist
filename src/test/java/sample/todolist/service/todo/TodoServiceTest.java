@@ -16,7 +16,7 @@ import sample.todolist.dto.todo.request.TodoCreateRequest;
 import sample.todolist.dto.todo.request.TodoStatusUpdateRequest;
 import sample.todolist.dto.todo.response.TodoCreateResponse;
 import sample.todolist.dto.todo.response.TodoStatusUpdateResponse;
-import sample.todolist.handler.ex.validationException;
+import sample.todolist.handler.ex.ValidationException;
 import sample.todolist.service.member.MemberService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -106,7 +106,7 @@ public class TodoServiceTest extends IntegrationTestSupport  {
 
         //when then
         assertThatThrownBy(() -> todoService.updateTodoStatus(todo.getId(), request))
-                .isInstanceOf(validationException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("진행 중 상태에서만 대기 상태로 변경될 수 있습니다.");
     }
 

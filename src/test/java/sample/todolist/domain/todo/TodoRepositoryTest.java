@@ -78,9 +78,9 @@ public class TodoRepositoryTest extends IntegrationTestSupport {
 
         em.flush();
         em.clear();
+
         //when
         Todo findTodo = todoRepositoryJpa.findById(todo.getId()).get();
-
 
         //then
         assertThat(findTodo.getTodoStatus()).isEqualTo(TodoStatus.IN_PROGRESS);
@@ -104,7 +104,6 @@ public class TodoRepositoryTest extends IntegrationTestSupport {
         em.clear();
         //when
         Todo findTodo = todoRepositoryJpa.findById(todo.getId()).get();
-
 
         //then
         assertThat(findTodo.getTodoStatus()).isEqualTo(TodoStatus.DONE);

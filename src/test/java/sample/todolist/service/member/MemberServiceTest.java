@@ -16,7 +16,7 @@ import sample.todolist.domain.todo.TodoStatus;
 import sample.todolist.dto.member.request.MemberCreateRequest;
 import sample.todolist.dto.member.response.MemberCreateResponse;
 import sample.todolist.dto.todo.response.TodoResponse;
-import sample.todolist.handler.ex.validationException;
+import sample.todolist.handler.ex.ValidationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +81,7 @@ public class MemberServiceTest extends IntegrationTestSupport {
 
         //when //then
         assertThatThrownBy(() -> memberService.createMember(request))
-                .isInstanceOf(validationException.class)
+                .isInstanceOf(ValidationException.class)
                 .hasMessage("이미 사용 중인 유저명입니다.");
     }
 

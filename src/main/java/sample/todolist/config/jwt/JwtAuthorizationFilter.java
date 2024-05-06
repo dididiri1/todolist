@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import sample.todolist.config.auth.PrincipalDetails;
 import sample.todolist.domain.member.Member;
 import sample.todolist.domain.member.MemberRepositoryJpa;
-
+import sample.todolist.handler.ex.JwtException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -46,11 +46,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(jwtToken)
                     .getClaim("username").asString();
         } catch (TokenExpiredException e) {
-            e.printStackTrace();
-            request.setAttribute("exception", 405);
+            throw new JwtException("토큰이 만료되었습니다.");
         } catch (JWTVerificationException e) {
-            e.printStackTrace();
-            request.setAttribute("exception", 405);
+            throw new JwtException(e.getMessage());
         }
         if(username != null){
             Member memberEntity = memberRepositoryJpa.findByUsername(username);

@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import sample.todolist.config.jwt.JwtAuthenticationFilter;
 import sample.todolist.config.jwt.JwtAuthorizationFilter;
 import sample.todolist.domain.member.MemberRepositoryJpa;
 
@@ -58,7 +57,6 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                     .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepositoryJpa));
         }
     }

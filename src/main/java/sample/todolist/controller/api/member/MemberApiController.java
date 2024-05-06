@@ -43,6 +43,10 @@ public class MemberApiController {
         return new ResponseEntity<>(new ApiResponse<>(HttpStatus.OK.value(), "회원 탈퇴 성공", null), HttpStatus.OK);
     }
 
+    /**
+     * @Method: getMemberDodoList
+     * @Description: 회원 투두 목록 조회
+     */
     @GetMapping("/api/v1/members/{memberId}/todos")
     public ResponseEntity<?> getMemberDodoList(@PathVariable Long memberId, Pageable pageable) {
         Page<TodoResponse> response = memberService.getMemberDodoList(memberId, pageable);
